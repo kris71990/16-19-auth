@@ -4,6 +4,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import logger from './logger';
 import authRoutes from '../route/auth-routes';
+import basicAuthMiddleware from './basic-auth-middleware';
 import loggerMiddleware from './logger-middleware';
 import errorMiddleware from './error-middleware';
 
@@ -12,6 +13,7 @@ let server = null;
 
 app.use(loggerMiddleware);
 app.use(authRoutes);
+app.use(basicAuthMiddleware);
 
 app.all('*', (request, response) => {
   logger.log(logger.INFO, 'SERVER - 404 error from catch-all route');
