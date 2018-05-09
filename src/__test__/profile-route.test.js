@@ -66,17 +66,37 @@ describe('POST /profile', () => {
       });
   });
 
-  describe.only('GET /profile/:id', () => {
+  describe('GET /profile/:id', () => {
     test('GET - 200 for success', () => {
       return createProfileMock()
         .then((mock) => {
-          console.log(mock.accountMock.token)
-          return superagent.get(`${apiUrl}/profile/${mock.profile.account}`)
-            .auth('Authorization', `Bearer ${mock.accountMock.token}`)
-            .then((response) => {
-              expect(response.status).toEqual(200);
-              expect(response.body.token).toBeTruthy();
-            });
+          return superagent.get(`${apiUrl}/profile/${mock.profile._id}`)
+            .set('Authorization', `Bearer ${mock.accountMock.token}`);
+        })
+        .then((response) => {
+          expect(response.status).toEqual(200);
+          // expect(response.body.token).toBeTruthy();
+        });
+    });
+
+    test('GET - 400 for invalid request', () => {
+      return createProfileMock()
+        .then((mock) => {
+          return superagent.get(`${apiUrl}/profile/${mock.profile._id}`);
+        })
+        .catch((response) => {
+          expect(response.status).toEqual(401);
+        });
+    });
+
+    test('GET - 401 for no token', () => {
+      return createProfileMock()
+        .then(() => {
+          return superagent.get(`${apiUrl}/profile/1234`)
+            .set('Authorization', 'sdsdsa');
+        })
+        .catch((response) => {
+          expect(response.status).toEqual(404);
         });
     });
   });

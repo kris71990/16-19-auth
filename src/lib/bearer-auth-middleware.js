@@ -17,12 +17,15 @@ export default (request, response, next) => {
   if (!request.headers.authorization) {
     return next(new HttpError(401, 'AUTH - invalid request'));
   }
-  const token = request.headers.authorization.split(' ')[1];
+  const token = request.headers.authorization.split('Bearer ')[1];
   if (!token) {
-    return next(new HttpError(401, 'Invalid request'));
+    return next(new HttpError(404, 'Invalid request'));
   }
 
   return promisify(jsonWebToken.verify)(token, process.env.SECRET)
+    .catch((error) => {
+      return Promise.reject(new HttpError(401, `JWT error ${error}`));
+    })
     .then((seed) => {
       return Account.findOne({ tokenSeed: seed.tokenSeed });
     })
