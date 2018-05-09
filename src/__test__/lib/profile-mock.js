@@ -24,7 +24,6 @@ const createProfileMock = () => {
     });
 };
 
-
 const removeProfileMock = () => {
   return Promise.all([
     Profile.remove({}),
@@ -32,4 +31,4 @@ const removeProfileMock = () => {
   ]);
 };
 
-export default { createProfileMock, removeProfileMock };
+export { createProfileMock, removeProfileMock };

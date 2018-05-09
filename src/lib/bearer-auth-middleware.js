@@ -15,17 +15,14 @@ const promisify = callback => (...args) => {
 
 export default (request, response, next) => {
   if (!request.headers.authorization) {
-    return next(new HttpError(400, 'AUTH - invalid request'));
+    return next(new HttpError(401, 'AUTH - invalid request'));
   }
   const token = request.headers.authorization.split(' ')[1];
   if (!token) {
-    return next(new HttpError(400, 'Invalid request'));
+    return next(new HttpError(401, 'Invalid request'));
   }
 
   return promisify(jsonWebToken.verify)(token, process.env.SECRET)
-    // .catch((error) => {
-    //   Promise.reject(new HttpError(400, `JWT error ${error}`));
-    // })
     .then((seed) => {
       return Account.findOne({ tokenSeed: seed.tokenSeed });
     })

@@ -67,5 +67,17 @@ describe('User Authentication', () => {
           expect(response.body.token).toBeTruthy();
         });
     });
+
+    test('GET - 400 for bad request', () => {
+      return createAccountMock()
+        .then((mock) => {
+          return superagent.get(`${apiUrl}/login`)
+            .auth('bad request', mock.request.password);
+        })
+        .catch((response) => {
+          expect(response.status).toEqual(400);
+          expect(response.body).toBeFalsy();
+        });
+    });
   });
 });
