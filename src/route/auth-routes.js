@@ -1,7 +1,9 @@
 'use strict';
 
 import { Router } from 'express';
+import HttpError from 'http-errors';
 import bodyParser from 'body-parser';
+import basicAuthMiddlware from '../lib/basic-auth-middleware';
 import logger from '../lib/logger';
 import Account from '../model/account';
 
@@ -17,6 +19,18 @@ authRouter.post('/signup', jsonParser, (request, response, next) => {
     })
     .then((token) => {
       logger.log(logger.INFO, 'AUTH - return 200 code');
+      return response.json({ token });
+    })
+    .catch(next);
+});
+
+authRouter.get('/login', basicAuthMiddlware, (request, response, next) => {
+  if (!request.account) {
+    return next(new HttpError(400, 'AUTH - Invalid request'));
+  }
+  return request.account.createToken()
+    .then((token) => {
+      logger.log(logger.INFO, 'responding with 200 status and token');
       return response.json({ token });
     })
     .catch(next);

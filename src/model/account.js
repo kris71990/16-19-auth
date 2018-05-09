@@ -42,7 +42,18 @@ function createToken() {
     .catch(() => new HttpError(401, 'Error creating token'));
 }
 
+function verifyPassword(password) {
+  return bcrypt.compare(password, this.passwordHash)
+    .then((result) => {
+      if (!result) {
+        throw new HttpError(400, 'AUTH - incorrect data');
+      }
+      return this;
+    });
+}
+
 accountSchema.methods.createToken = createToken;
+accountSchema.methods.verifyPassword = verifyPassword;
 
 const Account = mongoose.model('account', accountSchema);
 
