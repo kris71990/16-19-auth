@@ -12,12 +12,13 @@ const imageRouter = new Router();
 const multerUpload = multer({ dest: `${__dirname}/../temp` });
 
 imageRouter.post('/images', bearerAuthMiddleware, multerUpload.any(), (request, response, next) => {
+  console.log(request.files[0].fieldname)
   if (!request.account) {
     return next(new HttpError(404, 'IMAGE ROUTER ERROR - not found'));
   }
 
-  if (!request.body.title || request.files.length > 1 || request.files[0].fieldname !== 'sound') {
-    return next(new HttpError(400, 'SOUND ROUTER ERROR - invalid request'));
+  if (!request.body.title || request.files.length > 1 || request.files[0].fieldname !== 'image') {
+    return next(new HttpError(400, 'IMAGE ROUTER ERROR - invalid request'));
   }
 
   const file = request.files[0];

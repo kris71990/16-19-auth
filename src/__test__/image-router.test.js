@@ -8,8 +8,8 @@ const apiUrl = `http://localhost:${process.env.PORT}`;
 
 describe('Testing /images', () => {
   beforeAll(startServer);
-  afterAll(stopServer);
   afterEach(removeImageMock);
+  afterAll(stopServer);
 
   describe('POST 200 for successful post', () => {
     test('should return 200', () => {
@@ -28,6 +28,7 @@ describe('Testing /images', () => {
             });
         })
         .catch((error) => {
+          console.log(error.status)
           expect(error.status).toEqual(400);
         });
     });

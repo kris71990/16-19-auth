@@ -4,8 +4,8 @@ import faker from 'faker';
 import * as awsSDKMock from 'aws-sdk-mock';
 
 awsSDKMock.mock('S3', 'upload', (params, callback) => {
-  if (!params.Key || !params.Bucket || !params.ACL || !params.body) {
-    return callback(new Error('AWS error: key/bucket required'));
+  if (!params.Key || !params.Bucket || !params.ACL || !params.Body) {
+    return callback(new Error('AWS error - upload: key/bucket required'));
   }
 
   if (params.ACL !== 'public-read') {
@@ -21,7 +21,7 @@ awsSDKMock.mock('S3', 'upload', (params, callback) => {
 
 awsSDKMock.mock('S3', 'deleteObject', (params, callback) => {
   if (!params.Key || !params.Bucket) {
-    return callback(new Error('AWS error: key/bucket required'));
+    return callback(new Error('AWS error - delete: key/bucket required'));
   }
 
   if (params.Bucket !== process.env.AWS_BUCKET) {
