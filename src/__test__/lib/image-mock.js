@@ -10,6 +10,7 @@ const createImageMock = () => {
   return createAccountMock()
     .then((accountMockSet) => {
       resultMock.accountMock = accountMockSet;
+      
       return new Image({
         title: faker.random.words(5),
         url: faker.random.image(),
