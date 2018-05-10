@@ -24,3 +24,6 @@ The tests test performance of these requests:
 
 1. A POST request to /signup
     - A post to /signup with a username, password, and email will be sent to the server. The password is immediately hashed and deleted, and an authentication token is generated and sent back to the user. The user's account is saved into the database with the password hash and current token seed.
+
+2. A GET request from /login
+    - A get request with a username and password will
