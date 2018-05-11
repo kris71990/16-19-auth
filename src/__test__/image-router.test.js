@@ -32,36 +32,36 @@ describe('Testing /images', () => {
           expect(error.status).toEqual(400);
         });
     });
-  });
 
-  test('should return 400 for bad request', () => {
-    return createImageMock()
-      .then((mockResponse) => {
-        const { token } = mockResponse.accountMock;
-        return superagent.post(`${apiUrl}/images`)
-          .set('Authorization', `Bearer ${token}`)
-          .field('title', '')
-          .attach('image', `${__dirname}/assets/cloud.png`)
-          .catch((response) => {
-            expect(response.status).toEqual(400);
-            expect(response.body).toBeFalsy();
-          });
-      });
-  });
+    test('should return 400 for bad request', () => {
+      return createImageMock()
+        .then((mockResponse) => {
+          const { token } = mockResponse.accountMock;
+          return superagent.post(`${apiUrl}/images`)
+            .set('Authorization', `Bearer ${token}`)
+            .field('title', '')
+            .attach('image', `${__dirname}/assets/cloud.png`)
+            .catch((response) => {
+              expect(response.status).toEqual(400);
+              expect(response.body).toBeFalsy();
+            });
+        });
+    });
 
-  test('should return 401 for bad/missing token', () => {
-    return createImageMock()
-      .then(() => {
-        const token = 1234;
-        return superagent.post(`${apiUrl}/images`)
-          .set('Authorization', `Bearer ${token}`)
-          .field('title', 'some image')
-          .attach('image', `${__dirname}/assets/cloud.png`)
-          .catch((response) => {
-            expect(response.status).toEqual(401);
-            expect(response.body).toBeFalsy();
-          });
-      });
+    test('should return 401 for bad/missing token', () => {
+      return createImageMock()
+        .then(() => {
+          const token = 1234;
+          return superagent.post(`${apiUrl}/images`)
+            .set('Authorization', `Bearer ${token}`)
+            .field('title', 'some image')
+            .attach('image', `${__dirname}/assets/cloud.png`)
+            .catch((response) => {
+              expect(response.status).toEqual(401);
+              expect(response.body).toBeFalsy();
+            });
+        });
+    });
   });
 
   describe('GET /images/:id', () => {
@@ -105,7 +105,7 @@ describe('Testing /images', () => {
   });
 
   describe('DELETE /images/:id', () => {
-    test('should return 204 for successful deletion', () => {
+    test.only('should return 204 for successful deletion', () => {
       jest.setTimeout(1000);
       return createImageMock()
         .then((mockResponse) => {

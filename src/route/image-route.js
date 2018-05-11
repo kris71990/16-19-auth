@@ -39,6 +39,7 @@ imageRouter.post('/images', bearerAuthMiddleware, multerUpload.any(), (request, 
 });
 
 imageRouter.delete('/images/:id', bearerAuthMiddleware, (request, response, next) => {
+  console.log(request)
   // return s3Remove()
   return Image.findByIdAndRemove(request.params.id)
     .then((image) => {
