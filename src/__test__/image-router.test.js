@@ -13,6 +13,7 @@ describe('Testing /images', () => {
 
   describe('POST /images', () => {
     test('should return 200 for successful post', () => {
+      // jest.setTimeout(30000);
       return createImageMock()
         .then((mockResponse) => {
           const { token } = mockResponse.accountMock;
@@ -105,6 +106,7 @@ describe('Testing /images', () => {
 
   describe('DELETE /images/:id', () => {
     test('should return 204 for successful deletion', () => {
+      jest.setTimeout(1000);
       return createImageMock()
         .then((mockResponse) => {
           const { token } = mockResponse.accountMock;
@@ -118,6 +120,7 @@ describe('Testing /images', () => {
     });
 
     test('should return 401 for bad/missing token', () => {
+      jest.setTimeout(1000);
       return createImageMock()
         .then((mockResponse) => {
           return superagent.delete(`${apiUrl}/images/${mockResponse.image._id}`)
@@ -129,6 +132,7 @@ describe('Testing /images', () => {
     });
 
     test('should return 404 for image not found', () => {
+      jest.setTimeout(1000);
       return createImageMock()
         .then((mockResponse) => {
           const { token } = mockResponse.accountMock;
