@@ -1,7 +1,7 @@
 'use strict';
 
 import faker from 'faker';
-import { createAccountMock, removeAccountMock } from './account-mock';
+import { createAccountMock } from './account-mock';
 import Image from '../../model/image';
 import Account from '../../model/account';
 

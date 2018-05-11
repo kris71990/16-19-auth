@@ -12,7 +12,6 @@ const imageRouter = new Router();
 const multerUpload = multer({ dest: `${__dirname}/../temp` });
 
 imageRouter.post('/images', bearerAuthMiddleware, multerUpload.any(), (request, response, next) => {
-  console.log(request.files[0].fieldname)
   if (!request.account) {
     return next(new HttpError(404, 'IMAGE ROUTER ERROR - not found'));
   }
@@ -38,5 +37,30 @@ imageRouter.post('/images', bearerAuthMiddleware, multerUpload.any(), (request, 
     })
     .catch(error => next(new HttpError(400, error)));
 });
+
+imageRouter.delete('/images/:id', bearerAuthMiddleware, (request, response, next) => {
+  return Image.findByIdAndRemove(request.params.id)
+    .then((image) => {
+      if (!image) {
+        return new HttpError(404, 'no image found');
+      }
+      logger.log(logger.INFO, 'return 204 for successful deletion');
+      return response.sendStatus(204);
+    })
+    .catch(next);
+});
+
+imageRouter.get('/images/:id', bearerAuthMiddleware, (request, response, next) => {
+  return Image.findById(request.params.id)
+    .then((image) => {
+      if (!image) {
+        return new HttpError(404, 'no image found');
+      }
+      logger.log(logger.INFO, 'returning 200 and image info');
+      return response.json(image);
+    })
+    .catch(next);
+});
+
 
 export default imageRouter;
