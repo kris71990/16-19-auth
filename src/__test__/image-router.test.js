@@ -105,7 +105,7 @@ describe('Testing /images', () => {
   });
 
   describe('DELETE /images/:id', () => {
-    test.only('should return 204 for successful deletion', () => {
+    test('should return 204 for successful deletion', () => {
       jest.setTimeout(1000);
       return createImageMock()
         .then((mockResponse) => {

@@ -60,8 +60,6 @@ imageRouter.post('/images', _bearerAuthMiddleware2.default, multerUpload.any(), 
 });
 
 imageRouter.delete('/images/:id', _bearerAuthMiddleware2.default, function (request, response, next) {
-  console.log(request);
-  // return s3Remove()
   return _image2.default.findByIdAndRemove(request.params.id).then(function (image) {
     if (!image) {
       return new _httpErrors2.default(404, 'no image found');

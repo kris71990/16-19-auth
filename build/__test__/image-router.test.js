@@ -90,7 +90,7 @@ describe('Testing /images', function () {
   });
 
   describe('DELETE /images/:id', function () {
-    test.only('should return 204 for successful deletion', function () {
+    test('should return 204 for successful deletion', function () {
       jest.setTimeout(1000);
       return (0, _imageMock.createImageMock)().then(function (mockResponse) {
         var token = mockResponse.accountMock.token;

@@ -6,7 +6,7 @@ import HttpError from 'http-errors';
 import bearerAuthMiddleware from '../lib/bearer-auth-middleware';
 import logger from '../lib/logger';
 import Image from '../model/image';
-import { s3Upload, s3Remove } from '../lib/s3';
+import { s3Upload } from '../lib/s3';
 
 const imageRouter = new Router();
 const multerUpload = multer({ dest: `${__dirname}/../temp` });
@@ -39,8 +39,6 @@ imageRouter.post('/images', bearerAuthMiddleware, multerUpload.any(), (request, 
 });
 
 imageRouter.delete('/images/:id', bearerAuthMiddleware, (request, response, next) => {
-  console.log(request)
-  // return s3Remove()
   return Image.findByIdAndRemove(request.params.id)
     .then((image) => {
       if (!image) {
